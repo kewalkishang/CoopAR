@@ -1,0 +1,33 @@
+body {
+    font-family: helvetica, arial, sans-serif;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+  }
+  
+   #webcam {
+    /* Make video to at least 100% wide and tall */
+   /*  min-width: 100%; 
+    min-height: 100%; 
+  
+  
+    width: auto;
+    height: auto;
+  
+  
+    position: absolute;
+    top: 75%;
+    left: 70%;
+    transform: translate(-50%,-50%); */
+     
+     height: auto;
+      left: 50%;
+      min-height: 100%;
+      min-width: 100%;
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%) scale(0.75, 0.75);
+      width: auto;
+      z-index: -1;
+        }

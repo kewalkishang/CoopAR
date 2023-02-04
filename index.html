@@ -1,0 +1,330 @@
+<html class="js-focus-visible">
+  <head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Kewal" />
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"
+    ></script>
+    <script
+      nomodule=""
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://remove-focus-visible-polyfill.s3.us-east-2.amazonaws.com/focus-visible.js"></script>
+    <style>
+      model-viewer {
+        width: 100%;
+        height: 100%;
+        outline: none;
+        margin: 0;
+        --poster-color: #fff;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      #titleText {
+        position: absolute;
+        top: 2%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        width: 100%;
+        font-size: 6vw;
+        font-weight: bold;
+        font-family: fantasy;
+      }
+      #question {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        width: 200px;
+        bottom: 10px;
+        display: none;
+      }
+      #animationTrigger {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        width: 200px;
+        bottom: 10px;
+      }
+      #title {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        font-weight: bold;
+        bottom: 10%;
+        text-align: center;
+      }
+      #info {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        display: none;
+        padding:  5;
+        right: 0;
+        top: 30%;
+        background-color: white;
+        margin-left: 10%;
+        margin-right: 10%;
+
+        text-align: center;
+      }
+      #rotorInfo {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        display: none;
+        right: 0;
+        top: 30%;
+        background-color: white;
+        margin-left: 10%;
+        margin-right: 10%;
+
+        text-align: center;
+      }
+        #shaftInfo {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        display: none;
+        right: 0;
+        top: 30%;
+        background-color: white;
+        margin-left: 10%;
+        margin-right: 10%;
+
+        text-align: center;
+      }
+
+        #gearInfo {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        display: none;
+        right: 0;
+        top: 30%;
+        background-color: white;
+        margin-left: 10%;
+        margin-right: 10%;
+
+        text-align: center;
+      }
+
+
+      :not(:defined) > * {
+        display: none;
+      }
+    </style>
+    <script>
+      const questions = ["Click on shaft", "Click on gear", "Click on rotor"];
+      const answer = ["3", "2", "1"];
+      function start() {
+        //alert("hello");
+        getAllRestaurantsCall();
+        setUpQuestions();
+        document.querySelector("#animationTrigger").style.display = "none";
+        document.querySelector("#question").style.display = "block";
+        makeAllOptionsInvisible(false);
+      }
+
+      async function triggerMeAnimation(loop, count = 1) {
+        let modelViewer = document.querySelector("#desk");
+        modelViewer.animationName = "Take 001";
+        modelViewer.timeScale = 0.5;
+        await modelViewer.updateComplete;
+        if (loop) {
+          modelViewer.play();
+        } else {
+          modelViewer.play({ repetitions: count });
+        }
+        makeAllOptionsInvisible(true);
+        setInterval(function () {makeAllOptionsInvisible(false)}, 6000);
+      }
+
+      function showInfo(state) {
+        console.log(this.id);
+        let infoSection = document.querySelector("#info");
+        infoSection.style.display = state ? "block" : "none";
+        makeAllOptionsInvisible(state ? true: false);
+      }
+      
+      var questionNumber = -1;
+      function checkAnswer(option){
+          if(option == answer[questionNumber]){
+            console.log("Correct");
+            setUpQuestions();
+            updateRestaurantsCall(questionNumber - 1);
+          }
+      }
+function hello(){
+  alert("HELLO");
+}
+      function setUpQuestions(){
+        
+          questionNumber += 1;
+         if(questionNumber < questions.length){
+          var ques = questions[questionNumber];
+          document.querySelector("#question").innerHTML = ques;
+        }
+        else{
+          document.querySelector("#question").innerHTML = "Quiz completed!";
+          makeAllOptionsInvisible(true);
+        }
+      }
+
+      function makeAllOptionsInvisible(state) {
+      const infoObjects = ["shaftAnn", "rotorAnn", "gearAnn"];
+      for (var i = 0; i < infoObjects.length; i++) {
+        document.getElementById(infoObjects[i]).style.display = state ? "none": "block";
+      }
+
+     
+    }
+    </script>
+  </head>
+  <body>
+    <!-- All you need to put beautiful, interactive 3D content on your site: -->
+    <model-viewer
+      id="desk"
+      src="https://cdn.glitch.global/b10b593b-5937-4644-a288-76842055f610/untitled.glb?v=1670095537943"
+      alt="A 3D model of an astronaut"
+      ar-modes="webxr scene-viewer quick-look"
+      shadow-intensity="1"
+      camera-controls
+      auto-rotate
+      ar
+      ar-placement="floor"
+    >
+      <button
+            id="shaftAnn"
+        class="Hotspot"
+        slot="hotspot-2"
+        style="display: none;"
+        data-position="2.2974879849952217m 11.63842257440664m -1.393008395556274m"
+        data-normal="-0.9120713921032161m 0m -0.4100314325840173m"
+        data-visibility-attribute="visible"
+               onClick="checkAnswer('3')"
+      >
+        <div class="HotspotAnnotation">3</div></button
+      ><button
+                id="gearAnn"
+        class="Hotspot"
+        slot="hotspot-3"
+        style="display: none;"
+        data-position="-0.4223002882512583m 24.629975072775892m -5.012946171651569m"
+        data-normal="0m -1m 0m"
+        data-visibility-attribute="visible"
+        onClick="checkAnswer('2')"
+      >
+        <div class="HotspotAnnotation">2</div></button
+      ><button
+                id="rotorAnn"
+        class="Hotspot"
+        slot="hotspot-4"
+         style="display: none;"
+        data-position="7.811258080336416m 11.952919904958035m -12.002384926098056m"
+        data-normal="0.5000002838289199m 0.000010991659342973806m -0.8660252398459198m"
+        data-visibility-attribute="visible"
+        onClick="checkAnswer('1')"
+      >
+        <div class="HotspotAnnotation">1</div>
+      </button>
+
+      <div id="titleText">
+        <img
+          src="https://cdn.glitch.global/b10b593b-5937-4644-a288-76842055f610/MicrosoftTeams-image.png?v=1670097435502"
+          alt="Girl in a jacket"
+          width="200"
+          height="70"
+        />
+      </div>
+  
+        <div id="rotorInfo" class="row flex-container">
+          <span>
+            the rotating member of an electrical machine. An assembly of
+            rotating blades that supplies lift or stability for a rotorcraft.
+          </span>
+
+          <button onclick="showRotor(false)" id="closeRotor" type="button">
+            Close
+          </button>
+        </div>
+      
+       <div id="shaftInfo" class="row flex-container">
+          <span>
+            A shaft is a rotating machine element, usually circular in cross section, which is used to transmit power from one part to another, or from a machine which produces power to a machine which absorbs power.
+          </span>
+
+          <button onclick="showShaft(false)" id="closeShaft" type="button">
+            Close
+          </button>
+        </div>
+      
+       <div id="gearInfo" class="row flex-container">
+          <span>
+            A gear is a rotating circular machine part having cut teeth or, in the case of a cogwheel or gearwheel, inserted teeth (called cogs), which mesh with another (compatible) toothed part to transmit (convert) torque and speed. 
+          </span>
+
+          <button onclick="showGear(false)" id="closeGear" type="button">
+            Close
+          </button>
+        </div>
+       
+      
+        <div id="info" class="row flex-container">
+          <span>
+            A pneumatic motor (air motor), or compressed air engine, is a type
+            of motor which does mechanical work by expanding compressed air.
+            Pneumatic motors generally convert the compressed air energy to
+            mechanical work through either linear or rotary motion. Linear
+            motion can come from either a diaphragm or piston actuator, while
+            rotary motion is supplied by either a vane type air motor, piston
+            air motor, air turbine or gear type motor.
+          </span>
+
+          <button onclick="showInfo(false)" id="close" type="button">
+            Close
+          </button>
+        </div>
+        <span id="title">Pneumatic Engine</span>
+        <button onclick="start()" type="button" id="animationTrigger">
+          Start Quiz
+        </button>
+     <span id="question">
+        Click on the central shaft.
+     </span>
+      
+    </model-viewer>
+    <script src="/__/firebase/9.6.6/firebase-app-compat.js"></script>
+<script src="/__/firebase/9.6.6/firebase-auth-compat.js"></script>
+<script src="/__/firebase/9.6.6/firebase-firestore-compat.js"></script>
+<script src="/__/firebase/init.js"></script>
+
+<script src="//unpkg.com/navigo@6"></script>
+
+<script src="/scripts/FriendlyEats.js"></script>
+<script src="/scripts/FriendlyEats.View.js"></script>
+<script src="/scripts/FriendlyEats.Mock.js"></script>
+    <script src="/scripts/FriendlyEats.Data.js"></script>
+  </body>
+</html>

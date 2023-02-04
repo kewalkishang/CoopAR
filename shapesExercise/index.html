@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>SV Lab - Shapes</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, shrink-to-fit=no">
+    <!-- Load the latest version of TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+     <link rel="stylesheet" href="/style.css">
+  <style>
+      .header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #4542af;
+  color: white;
+  text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="header"><img src="https://cdn.glitch.global/63f28528-66fe-48be-b15b-f8dc46869ca5/logo.png?v=1670148217959" alt="Girl in a jacket" height="60" /></div>
+  
+   <!-- Video element for realtime streaming -->
+   <video autoplay playsinline muted id="webcam" ></video>
+    
+      <div id="console" style="position: absolute; top: 10%; left: 10%; display: none; "></div>
+    <!-- Load index.js after the content of the page -->
+    <div style="position: absolute; bottom: 0; width : 100%; text-align: center; background-color: white ">
+      <p>
+        <b>Shapes</b>
+      </p>
+       <p id="objectFind">
+        Find a Rectangular object
+      </p>
+    </div>
+    <script src="/script.js"></script>
+  </body>
+</html>
